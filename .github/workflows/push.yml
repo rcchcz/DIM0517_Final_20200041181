@@ -30,16 +30,17 @@ jobs:
       - name: Run Tests
         run: python -m unittest test.py
   
-  tag:
+  generate_tag:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
         
-      - run: |
-         TAG_NAME="build-$(date +'%m%d%Y%H%M%S')"
-         git tag $TAG_NAME
-         git push --tags
+      - name: Create and push tag
+        run: |
+          TAG_NAME="build_$(date +'%m%d%Y%H%M%S')"
+          git tag $TAG_NAME
+          git push --tags
  
   generate-artifact:
     needs: [build, test]
