@@ -24,12 +24,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Run Tests
         run: python -m unittest test.py
   
   tag:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - run: |
          TAG_NAME="build-$(date +'%m%d%Y%H%M%S')"
          git tag $TAG_NAME
