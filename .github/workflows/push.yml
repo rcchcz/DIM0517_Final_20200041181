@@ -30,7 +30,7 @@ jobs:
       - name: Run Tests
         run: python -m unittest test.py
   
-  generate_tag:
+  tag:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,7 +43,7 @@ jobs:
           git push --tags
  
   generate-artifact:
-    needs: [build, test]
+    needs: [tag]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -55,13 +55,9 @@ jobs:
           git checkout main
           zip -r main.zip .
 
-  upload-artifact:
-      needs: [build, test, generate-artifact]
-      runs-on: ubuntu-latest
-      steps:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: upload-artifact
+          name: release-artifact
           path: main.zip
 
